@@ -1,0 +1,6 @@
+zone "home.lan." IN {
+    type master;
+    file "/etc/bind/db.home.lan";
+    allow-transfer { none; };
+};
+

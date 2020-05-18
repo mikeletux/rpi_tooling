@@ -1,0 +1,10 @@
+options{
+	listen-on-v6 { none; };
+	forwarders {
+                8.8.8.8;
+                8.8.4.4;
+        };
+        forward only;
+	max-cache-size 10m;
+	allow-query{any;};
+};
