@@ -1,0 +1,6 @@
+---
+- name: Install all infrastrucutre software
+  hosts: rpi
+  become: yes
+  roles:
+    - rpi_install_docker

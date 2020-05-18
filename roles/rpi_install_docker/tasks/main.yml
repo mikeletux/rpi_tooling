@@ -1,0 +1,13 @@
+---
+# tasks file for rpi_install_docker
+- name: Install docker from Ubuntu repo
+  package:
+    name: docker.io
+    state: present
+
+- name: Add users to docker group
+  user:
+    name: "{{ item }}"
+    append: yes
+    groups: docker
+  loop: "{{ docker_users }}"

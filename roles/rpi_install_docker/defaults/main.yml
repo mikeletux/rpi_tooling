@@ -1,0 +1,5 @@
+---
+# defaults file for rpi_install_docker
+#List of users to add to the adocker group for management
+docker_users:
+  - ansible

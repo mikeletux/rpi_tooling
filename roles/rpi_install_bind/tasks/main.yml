@@ -1,0 +1,11 @@
+---
+# tasks file for rpi_install_bind
+
+#by default, port 53 is being used by ubuntu (systemd-resolved).
+#stop this service and mask it to prevent to come up
+#sudo systemctl disable systemd-resolved
+#sudo systemctl mask systemd-resolved
+#Manage /etc/resolv.conf from ansible
+#make sure to open port 53 on ufw
+#Check that bind doesn't use up to 90% of RAM for caching /!\
+#Use this bind docker image -> https://hub.docker.com/r/mastermindg/rpi-dns/
