@@ -1,4 +1,4 @@
-# RPi tooling
+# :cherries: RPi tooling :cherries: 
 Collection of roles for deploying different useful services to the Raspberry Pi
 
 # Roles
@@ -22,7 +22,7 @@ pip3 install -r requirements.txt
 - ...More to come!
 
 # Contributing
-If you're feeling like automating everything, from deployment to monitoring in your Pi, please feel free to send pull request on regards whatever service you'd like to have :)  
+If you're feeling like automating everything, from deployment to monitoring in your Pi, please feel free to send pull request on regards whatever service you'd like to have :blush:   
 Also if you find some bug or want a new feature, please feel free to send your PR!  
 
 # License
