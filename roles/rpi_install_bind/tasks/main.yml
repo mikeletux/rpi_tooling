@@ -3,7 +3,6 @@
 
 #TBD -> make sure to open port 53 on ufw
 
-
 #Use this bind9 docker image -> https://hub.docker.com/r/mastermindg/rpi-dns/
 #Download the image since without DNS service the domain from dockerhub cannot be resolved
 - name: Download bind dns server docker image
@@ -21,12 +20,18 @@
         state: stopped
         enabled: no
         masked: yes
+      notify: Remove /etc/resolv.conf simlimk
     
-    - name: Create directory for docker volume
+    - meta: flush_handlers #We do this to avoid the situation of pointing to systemd-resolv and not having the service running (leads to escalation to root timeouts )
+    
+    - name: Create needed directories for Bind9 docker to work
       file:
-        path: "{{ bind_docker_volume_folder }}"
+        path: "{{ item }}"
         state: directory
         recurse: yes
+      loop:
+        - "{{ bind_docker_volume_folder }}"
+        - "{{ bind_docker_etc_folder }}"
 
     - name: Create named.conf file for bind
       template:
@@ -103,3 +108,4 @@
       template:
         src: netplan.j2
         dest: /etc/netplan/{{ netplan_file_name }}
+      notify: Netplan apply

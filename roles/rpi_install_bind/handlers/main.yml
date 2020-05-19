@@ -1,2 +1,9 @@
 ---
 # handlers file for rpi_install_bind
+- name: Netplan apply
+  command: netplan apply
+
+- name: Remove /etc/resolv.conf simlimk
+  file:
+    path: /etc/resolv.conf
+    state: absent

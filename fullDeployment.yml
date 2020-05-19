@@ -1,5 +1,5 @@
 ---
-- name: Install all infrastrucutre software
+- name: Install all infrastructure software
   hosts: rpi
   become: yes
   roles:

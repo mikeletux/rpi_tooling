@@ -1,2 +1,3 @@
 ---
 # vars file for rpi_install_bind
+bind_docker_etc_folder: "{{ bind_docker_volume_folder }}/bind/etc"

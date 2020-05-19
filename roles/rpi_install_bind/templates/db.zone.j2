@@ -12,11 +12,11 @@ $TTL 3600
 @       IN NS  ns2.{{ dns_domain }}.   ; You should have two name servers
 
 ; Name Servers - A records
-ns1                 IN A        {{ dns_ip_address }}         ; This is required
-ns2                 IN A        {{ dns_ip_address }}         ; You should have two name servers
+ns1                 IN A        {{ ansible_facts['eth0']['ipv4']['address'] }}         ; This is required
+ns2                 IN A        {{ ansible_facts['eth0']['ipv4']['address'] }}         ; You should have two name servers
 
 ; Our domains/sub-domains
-{{ pi_name }}                  IN A        {{ dns_ip_address }}         ; {{ pi_name }}.{{ dns_domain }}
+{{ pi_name }}                  IN A        {{ ansible_facts['eth0']['ipv4']['address'] }}         ; {{ pi_name }}.{{ dns_domain }}
 {% for v in dns_entries %}
 {{ v["name"] }}                IN A        {{ v["ip"] }}                ; {{ v["name"] }}.{{ dns_domain }}
 {% endfor %}

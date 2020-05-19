@@ -1,31 +1,55 @@
-Role Name
+rpi_install_bind
 =========
 
-A brief description of the role goes here.
+This role installs Bind9 DNS service on a docker containers
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+This Ansible role uses the **ipaddr** ansible filter. To make the role usable, please install **netaddr** package using pip.
+~~~
+pip3 install netaddr
+~~~
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+**bind_docker_volume_folder**: Where you want to have you docker volume for Bind9 (*i.e. /srv/docker/bind*)  
+
+**dns_domain**: DNS domain zone (*i.e. home.lan*)  
+
+**pi_name**: Domain name wanted for you pi (*i.e. pi*) 
+**dns_entries**: Dictionary with the A domains to add to the DNS server  
+In example:
+~~~
+dns_entries:
+  - name: gw
+    ip: 192.168.1.1
+  - name: 3d
+    ip: 192.168.1.250
+~~~
+
+**dns_forwarder_server_1**: First public DNS server (use for find as forwarder 1. Also it is used a backup DNS server when the pi is being used. *i.e. 8.8.8.8*)  
+**dns_forwarder_server_2**: Second public DNS server (use for find as forwarder . i.e. *8.8.4.4*)  
+
+**bind_max_cache_size**: Max cache size for Bind9 (*i.e. 10m*)  
+
+**netplan_file_name**: Netplan file used for configuring networking on the pi un the the folder /etc/netplan (*i.e. 50-ansible-managed-nw.yaml*)  
 
 Dependencies
 ------------
 
-A list of other roles hosted on Galaxy should go here, plus any details in regards to parameters that may need to be set for other roles, or variables that are used from other roles.
+This role has no dependencies on any other Ansible role
 
 Example Playbook
 ----------------
 
-Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
-
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+~~~
+- name: Install Bind9 on Pi
+  hosts: rpi
+  roles:
+    - rpi_install_bind
+~~~
 
 License
 -------
@@ -35,4 +59,4 @@ BSD
 Author Information
 ------------------
 
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+Miguel Sama (miguelsamamerino@gmail.com)
