@@ -1,0 +1,9 @@
+#Prerequisite packages for ansible to manage docker
+docker_ansible_packages:
+  - python3-pip
+  - python3-virtualenv
+  - python3-setuptools
+
+pip_packages:
+  - docker
+  

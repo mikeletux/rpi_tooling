@@ -1,0 +1,22 @@
+
+$TTL 3600
+@   IN  SOA     {{ dns_domain }}.    admin.{{ dns_domain }}. (
+                2018040501  ; Serial
+                604800      ; Refresh period
+                86400       ; Retry interval
+                2419200     ; Expire time (28 days... later)
+                604800 )    ; Negative Cache TTL (1 week)
+
+; Name Servers - NS records
+@       IN NS  ns1.{{ dns_domain }}.   ; This is required
+@       IN NS  ns2.{{ dns_domain }}.   ; You should have two name servers
+
+; Name Servers - A records
+ns1                 IN A        {{ dns_ip_address }}         ; This is required
+ns2                 IN A        {{ dns_ip_address }}         ; You should have two name servers
+
+; Our domains/sub-domains
+{{ pi_name }}                  IN A        {{ dns_ip_address }}         ; {{ pi_name }}.{{ dns_domain }}
+{% for v in dns_entries %}
+{{ v["name"] }}                IN A        {{ v["ip"] }}                ; {{ v["name"] }}.{{ dns_domain }}
+{% endfor %}

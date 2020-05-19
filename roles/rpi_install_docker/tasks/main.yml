@@ -1,5 +1,6 @@
 ---
 # tasks file for rpi_install_docker
+
 - name: Install docker from Ubuntu repo
   package:
     name: docker.io
@@ -11,3 +12,15 @@
     append: yes
     groups: docker
   loop: "{{ docker_users }}"
+
+- name: Install requirements for ansible to manage pip
+  package:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ docker_ansible_packages }}"
+
+- name: Install prerequisites for ansible to manage docker
+  pip:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ pip_packages }}"

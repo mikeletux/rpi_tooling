@@ -1,6 +1,6 @@
-zone "home.lan." IN {
+zone "{{ dns_domain }}." IN {
     type master;
-    file "/etc/bind/db.home.lan";
+    file "/etc/bind/db.{{ dns_domain }}";
     allow-transfer { none; };
 };
 

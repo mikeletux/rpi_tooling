@@ -1,2 +1,21 @@
 ---
 # defaults file for rpi_install_bind
+#Variables for docker volume folder
+bind_docker_volume_folder: /srv/docker/bind/
+
+#Variables for DNS customization
+dns_domain: home.lan
+dns_ip_address: 192.168.1.2 #IP where the DNS server will be placed on your local network
+pi_name: pi #domain name give in the bootstrap process
+dns_entries:
+  - name: gw
+    ip: 192.168.1.1
+  - name: 3d
+    ip: 192.168.1.250
+
+dns_forwarder_server_1: 8.8.8.8 
+dns_forwarder_server_2: 8.8.4.4
+
+bind_max_cache_size: 10m
+
+netplan_file_name: 50-ansible-managed-nw.yaml

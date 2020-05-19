@@ -1,0 +1,15 @@
+#{{ ansible_managed }}
+network: 
+  version: 2
+  ethernets:
+    eth0:
+      addresses:
+        - {{ (ansible_facts['eth0']['ipv4']['address'] + '/' + ansible_facts['eth0']['ipv4']['netmask']) | ipv4('host/prefix') }}
+      gateway4: {{ ansible_facts['default_ipv4']['gateway'] }}
+      nameservers:
+{% if local_dns == "bind" %}
+        addresses: [127.0.0.1, {{ dns_forwarder_server_1 }}]
+{% endif %}
+{% if local_dns == "resolved" %}
+        addresses: [{{ dns_forwarder_server_1 }}, {{ dns_forwarder_server_2 }}]
+{% endif %}

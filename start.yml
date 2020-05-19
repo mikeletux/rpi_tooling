@@ -4,3 +4,4 @@
   become: yes
   roles:
     - rpi_install_docker
+    - rpi_install_bind

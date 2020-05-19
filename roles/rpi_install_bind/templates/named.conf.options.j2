@@ -1,10 +1,10 @@
 options{
 	listen-on-v6 { none; };
 	forwarders {
-                8.8.8.8;
-                8.8.4.4;
+                {{ dns_forwarder_server_1 }};
+                {{ dns_forwarder_server_2 }};
         };
         forward only;
-	max-cache-size 10m;
+	max-cache-size {{ bind_max_cache_size }};
 	allow-query{any;};
 };

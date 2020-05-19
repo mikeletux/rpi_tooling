@@ -1,11 +1,105 @@
 ---
 # tasks file for rpi_install_bind
 
-#by default, port 53 is being used by ubuntu (systemd-resolved).
-#stop this service and mask it to prevent to come up
-#sudo systemctl disable systemd-resolved
-#sudo systemctl mask systemd-resolved
-#Manage /etc/resolv.conf from ansible
-#make sure to open port 53 on ufw
-#Check that bind doesn't use up to 90% of RAM for caching /!\
-#Use this bind docker image -> https://hub.docker.com/r/mastermindg/rpi-dns/
+#TBD -> make sure to open port 53 on ufw
+
+
+#Use this bind9 docker image -> https://hub.docker.com/r/mastermindg/rpi-dns/
+#Download the image since without DNS service the domain from dockerhub cannot be resolved
+- name: Download bind dns server docker image
+  docker_image:
+    name: mastermindg/rpi-dns:latest
+    source: pull
+
+- name: Disable systemd from managing DNS
+  block:
+    #by default, port 53 is being used by ubuntu (systemd-resolved).
+    #stop this service and mask it to prevent to come up
+    - name: Stop and mask systemd-resolved service
+      systemd:
+        name: systemd-resolved
+        state: stopped
+        enabled: no
+        masked: yes
+    
+    - name: Create directory for docker volume
+      file:
+        path: "{{ bind_docker_volume_folder }}"
+        state: directory
+        recurse: yes
+
+    - name: Create named.conf file for bind
+      template:
+        src: named.conf.j2
+        dest: "{{ bind_docker_volume_folder }}/bind/etc/named.conf"
+
+    - name: Create zone file for bind
+      template:
+        src: named.conf.local.j2
+        dest: "{{ bind_docker_volume_folder }}/bind/etc/named.conf.local"
+
+    - name: Create zone details file for bind
+      template:
+        src: db.zone.j2
+        dest: "{{ bind_docker_volume_folder }}/bind/etc/db.{{ dns_domain }}"
+
+    - name: Create options file for bind
+      template:
+        src: named.conf.options.j2
+        dest: "{{ bind_docker_volume_folder }}/bind/etc/named.conf.options"
+
+    - name: Start bind container
+      docker_container:
+        name: bind
+        image: mastermindg/rpi-dns:latest
+        restart_policy: always
+        published_ports:
+          - "53:53/udp"
+        volumes:
+          - "{{ bind_docker_volume_folder }}:/data"
+        env:
+          WEBMIN_ENABLED: "false"
+
+    #Manage /etc/resolv.conf from ansible
+    - name: Set correct /etc/resolv.conf
+      template:
+        src: resolv.conf.j2
+        dest: /etc/resolv.conf
+
+    #If DNS installation succeed, primary DNS will be localhost and seconday dns_forwarder_server_1
+    - name: Set fact for local DNS in netplan
+      set_fact:
+        local_dns: bind
+
+  rescue:
+    - name: Stop bind container
+      docker_container:
+        name: bind
+        image: mastermindg/rpi-dns
+        state: stopped
+    
+    - name: Start systemd-resolved
+      systemd:
+        name: systemd-resolved
+        state: started
+        enabled: yes
+        masked: no
+      
+    #Manage /etc/resolv.conf from ansible
+    - name: Symlink to systemd-resolved config file
+      file:
+        src: /run/systemd/resolve/stub-resolv.conf
+        dest: /etc/resolv.conf
+        force: yes
+        state: link
+    
+    #If DNS installation fails, dns_forwarder_server_1 and 2 will be used as public DNS for the pi
+    - name: Set fact for local DNS in netplan
+      set_fact:
+        local_dns: resolved
+    
+  always: 
+    - name: Set correct DNS servers locally
+      template:
+        src: netplan.j2
+        dest: /etc/netplan/{{ netplan_file_name }}
