@@ -8,3 +8,5 @@ wg_server_allowed_addr:
   - addr: 10.0.0.2/32
     public_key: XXXXXXXXXXXXXXXXXXXXXXXXXXX
 
+#Use wg_replace_old_keys var if there are keys in place but you want to overwrite them with new ones
+wg_replace_old_keys: false 

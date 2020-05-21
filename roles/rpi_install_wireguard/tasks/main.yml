@@ -12,9 +12,14 @@
     name: wireguard
     state: latest
 
-- name: Generate key
+- name: Generate keys
+  include_tasks: genKeys.yml
 
-#- name: Create config file
-#  template:
+- name: Create config file
+  template:
+    src: wg_server_config.j2
+    dest: /etc/wireguard/{{ wg_interface_name }}.conf
+    mode: 0600
+
 
 

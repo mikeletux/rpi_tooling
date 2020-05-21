@@ -1,2 +1,4 @@
 ---
 # vars file for rpi_install_wireguard
+
+wg_interface_name: wg0
