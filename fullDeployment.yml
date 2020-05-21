@@ -1,7 +1,24 @@
 ---
-- name: Install all infrastructure software
+- name: Install docker on RPi
   hosts: rpi
   become: yes
   roles:
     - rpi_install_docker
+  tags:
+    - docker
+
+- name: Install Bind9 on RPi using docker container
+  hosts: rpi
+  become: yes
+  roles:
     - rpi_install_bind
+  tags:
+    - bind
+
+- name: Install WireGuard on RPi
+  hosts: rpi
+  become: yes
+  roles:
+    - rpi_install_wireguard
+  tags:
+    - wireguard
