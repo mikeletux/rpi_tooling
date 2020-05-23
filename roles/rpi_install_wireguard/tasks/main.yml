@@ -13,13 +13,22 @@
     state: latest
 
 - name: Generate keys
-  include_tasks: genKeys.yml
+  include_tasks: genkeys.yml
 
 - name: Create config file
   template:
     src: wg_server_config.j2
     dest: /etc/wireguard/{{ wg_interface_name }}.conf
     mode: 0600
+
+# - name: Enable routing on RPi
+
+- name: Start and enable WireGuard
+  systemd:
+    name: wg-quick@{{ wg_interface_name }}
+    state: started
+    enabled: yes
+    
 
 
 

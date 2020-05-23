@@ -2,3 +2,6 @@
 # vars file for rpi_install_wireguard
 
 wg_interface_name: wg0
+
+#internet_interface will be used to route traffic from VPN clients to the internet
+internet_interface: eth0

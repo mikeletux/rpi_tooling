@@ -1,12 +1,12 @@
 - name: Check if there are keys created already
-  command: grep -Eq "^PrivateKey.*" /etc/wireguard/{{ wg_interface_name }}
+  command: grep -Eq "^PrivateKey.*" /etc/wireguard/{{ wg_interface_name }}.conf
   register: exists_private_key
   ignore_errors: yes
   changed_when: no
 
 - name: Generate keys for RPi
   shell: 
-    cmd: wg genkey | tee privatekey | wg publickey > pubkey 
+    cmd: umask 077; wg genkey | tee /var/tmp/privatekey | wg pubkey > /var/tmp/pubkey
     chdir: /var/tmp
   when: exists_private_key.rc != 0 or wg_replace_old_keys == true
 
@@ -24,5 +24,5 @@
 
 - name: Output public key for use
   debug:
-    var: publickey
-    when: exists_private_key.rc != 0 or wg_replace_old_keys == true
+    var: publickey.content | b64decode
+  when: exists_private_key.rc != 0 or wg_replace_old_keys == true

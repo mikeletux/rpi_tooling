@@ -1,8 +1,10 @@
 [Interface]
 Address = {{ wg_server_interface_addr }}
 SaveConfig = true
-PrivateKey = {{ privatekey }}
+PrivateKey = {{ privatekey.content | b64decode }}
 ListenPort = {{ wg_server_listening_port }}
+PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ internet_interface }} -j MASQUERADE
+PostDown = iptables -D FORWARD -i %i -j ACCEPT; iptables -t nat -D POSTROUTING -o {{ internet_interface }} -j MASQUERADE
 
 {% for peer in wg_server_allowed_addr %}
 [Peer]
