@@ -4,6 +4,7 @@ Collection of roles for deploying different useful services to the Raspberry Pi
 # Roles
  - **rpi_install_docker** - Install docker on the Pi
  - **rpi_install_bind** - Install Bind9 DNS server on the Pi using docker containers
+ - **rpi_install_wireguard** - Install Wireguard VPN server on the Pi
 
 # IMPORTANT
 Before executing the Ansible pipeline, please install the python requisites:
@@ -15,7 +16,7 @@ pip3 install -r requirements.txt
 - [ ] Migrate Rpi bootstrap to this repo
 - [x] Role for installing docker 
 - [x] Role for deploying Bind9 using docker containers
-- [x] Role for deploying Wireguard vpn (Needs hardening)
+- [x] Role for deploying Wireguard vpn (**Needs hardening**)
 - [ ] Role for installing DuckDNS ddns
 - [ ] Role for deploying Grafana and InfluxDB
 - [ ] Role for getting certificates from Let's encrypt
