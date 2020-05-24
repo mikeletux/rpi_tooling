@@ -15,6 +15,14 @@
   tags:
     - bind
 
+- name: Install duckdns for DDNS name resolution
+  hosts: rpi
+  become: yes
+  roles:
+    - rpi_install_duckdns
+  tags:
+    - duckdns
+
 - name: Install WireGuard on RPi
   hosts: rpi
   become: yes
@@ -22,3 +30,4 @@
     - rpi_install_wireguard
   tags:
     - wireguard
+

@@ -1,0 +1,12 @@
+---
+# defaults file for rpi_install_duckdns
+
+#Token provided by duckdns.org (To get one register on their service)
+duckdns_token: 4d75154b-ba9e-4afb-83a5-d94c806c7399 #Example token
+
+#The script will be executed every "script_exec_time_minutes" minutes
+duckdns_script_exec_time_minutes: 5
+
+duckdns_logging_location: /var/log/duckdns.log
+              
+

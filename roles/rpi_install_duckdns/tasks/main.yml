@@ -1,0 +1,32 @@
+---
+# tasks file for rpi_install_duckdns
+
+#Create system user where the script runs from
+- name: Create system user where the script runs from
+  user:
+    name: duckdns
+    comment: System user to update public ip to duckdns.org
+    state: present
+    system: yes
+    group: syslog
+    append: yes
+    shell: /usr/sbin/nologin
+
+#Copy the script to some location
+#/usr/local/bin
+- name: Create script to sync up with DuckDNS
+  template:
+    src: duckdns.sh.j2
+    dest: /usr/local/bin/duckdns.sh
+    mode: 0770
+    owner: duckdns
+    group: syslog #syslog for logging
+
+#Create the cron task to execute the script every five minutes
+- name: Create cron task to execute the script
+  cron:
+    name: "Updaste duckdns DDNS service"
+    state: present
+    minute: "*/{{ duckdns_script_exec_time_minutes }}"
+    job: /usr/local/bin/duckdns.sh >/dev/null 2>&1
+    user: duckdns
