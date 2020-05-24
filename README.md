@@ -15,7 +15,7 @@ pip3 install -r requirements.txt
 - [ ] Migrate Rpi bootstrap to this repo
 - [x] Role for installing docker 
 - [x] Role for deploying Bind9 using docker containers
-- [ ] Role for deploying Wireguard vpn
+- [x] Role for deploying Wireguard vpn (Needs hardening)
 - [ ] Role for installing DuckDNS ddns
 - [ ] Role for deploying Grafana and InfluxDB
 - [ ] Role for getting certificates from Let's encrypt

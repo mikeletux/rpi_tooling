@@ -32,6 +32,12 @@
     privatekey: "{{ privatekey_base64.content | b64decode }}"
   when: exists_private_key.rc != 0 or wg_replace_old_keys == true
 
+- name: Cleanup of privatekey for security purposes
+  file:
+    path: /var/tmp/privatekey
+    state: absent
+  when: exists_private_key.rc != 0 or wg_replace_old_keys == true
+
 - name: Output public key for use
   debug:
     var: publickey.content | b64decode

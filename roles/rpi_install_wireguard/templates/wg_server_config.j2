@@ -1,6 +1,6 @@
 [Interface]
 Address = {{ wg_server_interface_addr }}
-SaveConfig = true
+SaveConfig = false
 PrivateKey = {{ privatekey }}
 ListenPort = {{ wg_server_listening_port }}
 PostUp = iptables -A FORWARD -i %i -j ACCEPT; iptables -t nat -A POSTROUTING -o {{ internet_interface }} -j MASQUERADE

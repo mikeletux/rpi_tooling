@@ -1,2 +1,6 @@
 ---
 # handlers file for rpi_install_wireguard
+- name: Restart Wireguard
+  systemd:
+    state: restarted
+    name: wg-quick@{{ wg_interface_name }}

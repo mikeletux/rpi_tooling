@@ -1,0 +1,12 @@
+- name: Create config file
+  template:
+    src: wg_server_config.j2
+    dest: /etc/wireguard/{{ wg_interface_name }}.conf
+    mode: 0600
+  notify: Restart Wireguard
+
+- name: Configure the firewall on {{ wg_server_listening_port }}/udp
+  ufw:
+    rule: allow
+    port: "{{ wg_server_listening_port }}"
+    proto: udp
