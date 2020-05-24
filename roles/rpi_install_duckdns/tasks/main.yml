@@ -8,9 +8,15 @@
     comment: System user to update public ip to duckdns.org
     state: present
     system: yes
-    group: syslog
-    append: yes
     shell: /usr/sbin/nologin
+
+- name: Create directory for duckdns user to log
+  file:
+    path: "{{ duckdns_logging_location }}"
+    state: directory
+    mode: 0755
+    owner: duckdns
+    group: duckdns
 
 #Copy the script to some location
 #/usr/local/bin
