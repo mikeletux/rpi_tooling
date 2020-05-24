@@ -17,7 +17,7 @@ pip3 install -r requirements.txt
 - [x] Role for installing docker 
 - [x] Role for deploying Bind9 using docker containers
 - [x] Role for deploying Wireguard vpn (**Needs hardening**)
-- [ ] Role for installing DuckDNS ddns
+- [x] Role for installing DuckDNS ddns
 - [ ] Role for deploying Grafana and InfluxDB
 - [ ] Role for getting certificates from Let's encrypt
 - [ ] Role for deploying Jenkins/Gitlab CI/CD
