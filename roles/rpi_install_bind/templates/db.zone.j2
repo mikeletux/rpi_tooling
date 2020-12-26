@@ -17,6 +17,7 @@ ns2                 IN A        {{ ansible_facts['eth0']['ipv4']['address'] }}  
 
 ; Our domains/sub-domains
 {{ pi_name }}                  IN A        {{ ansible_facts['eth0']['ipv4']['address'] }}         ; {{ pi_name }}.{{ dns_domain }}
+*.{{ pi_name }}                IN CNAME    {{ pi_name }}; wildcard to use subdomains
 {% for v in dns_entries %}
 {{ v["name"] }}                IN A        {{ v["ip"] }}                ; {{ v["name"] }}.{{ dns_domain }}
 {% endfor %}

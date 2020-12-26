@@ -37,21 +37,25 @@
       template:
         src: named.conf.j2
         dest: "{{ bind_docker_volume_folder }}/bind/etc/named.conf"
+      notify: Restart bind container
 
     - name: Create zone file for bind
       template:
         src: named.conf.local.j2
         dest: "{{ bind_docker_volume_folder }}/bind/etc/named.conf.local"
+      notify: Restart bind container
 
     - name: Create zone details file for bind
       template:
         src: db.zone.j2
         dest: "{{ bind_docker_volume_folder }}/bind/etc/db.{{ dns_domain }}"
+      notify: Restart bind container
 
     - name: Create options file for bind
       template:
         src: named.conf.options.j2
         dest: "{{ bind_docker_volume_folder }}/bind/etc/named.conf.options"
+      notify: Restart bind container
 
     - name: Start bind container
       docker_container:

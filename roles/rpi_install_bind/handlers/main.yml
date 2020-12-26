@@ -7,3 +7,9 @@
   file:
     path: /etc/resolv.conf
     state: absent
+
+- name: Restart bind container
+  docker_container:
+    name: bind
+    state: started
+    restart: true
